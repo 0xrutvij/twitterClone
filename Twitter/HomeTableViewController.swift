@@ -15,6 +15,10 @@ class HomeTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         loadTweet()
     }
     
@@ -33,8 +37,8 @@ class HomeTableViewController: UITableViewController {
                 }
                 self.tableView.reloadData()
             },
-            failure: { (Error) in
-                print("Couldn't retrieve tweets!")
+            failure: { (error) in
+                print("Couldn't retrieve tweets! \(error)")
             })
     }
 
@@ -61,6 +65,10 @@ class HomeTableViewController: UITableViewController {
         if let imageData = data {
             cell.profileImageView.image = UIImage(data: imageData)
         }
+        
+        cell.setFavoriteButton(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.setRetweetButton(tweetArray[indexPath.row]["retweeted"] as! Bool)
+        cell.tweetId = tweetArray[indexPath.row]["id"] as! Int
         return cell
     }
     
